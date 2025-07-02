@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up | My Blog App</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        h2 {
+            background: linear-gradient(90deg, #ff6a00, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #1a1a1a;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            background-color: #0d0d0d;
+            border: 1px solid #ffa500;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        .toggle-password {
+            cursor: pointer;
+            color: #ffa500;
+            margin-top: 5px;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .error {
+            color: #ff4d4d;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(145deg, #ff6a00, #ff9900);
+            color: #0d0d0d;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #ffa500;
+        }
+    </style>
+</head>
+<body>
+    <h2>Sign Up</h2>
+    <form action="/users/signup" method="POST" onsubmit="return validateSignup()">
+        <label for="name">Full Name</label>
+        <input type="text" name="name" required>
+
+        <label for="email">Email</label>
+        <input type="email" name="email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="signup-password" name="password" required>
+        <span class="toggle-password" onclick="togglePassword('signup-password', this)">Show Password</span>
+
+        <label for="confirm-password">Retype Password</label>
+        <input type="password" id="confirm-password" name="confirm_password" required>
+        <span class="toggle-password" onclick="togglePassword('confirm-password', this)">Show Password</span>
+
+        <div id="error-msg" class="error"></div>
+
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <script>
+        function togglePassword(id, el) {
+            const input = document.getElementById(id);
+            if (input.type === "password") {
+                input.type = "text";
+                el.textContent = "Hide Password";
+            } else {
+                input.type = "password";
+                el.textContent = "Show Password";
+            }
+        }
+
+        function validateSignup() {
+            const pass = document.getElementById('signup-password').value;
+            const confirm = document.getElementById('confirm-password').value;
+            const error = document.getElementById('error-msg');
+
+            if (pass !== confirm) {
+                error.textContent = "Passwords do not match.";
+                return false;
+            }
+
+            if (pass.length < 6) {
+                error.textContent = "Password must be at least 6 characters.";
+                return false;
+            }
+
+            error.textContent = "";
+            return true;
+        }
+    </script>
+</body>
+</html>

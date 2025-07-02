@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Create Blog | My Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        /* Reset */
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0d0d0d;
+            color: #f0f0f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Topbar */
+        .topbar {
+            background-color: #1a1a1a;
+            color: #ffa500;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 18px 25px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-shadow: 0 2px 12px rgba(255, 165, 0, 0.15);
+            z-index: 1000;
+        }
+
+        .topbar h1 {
+            margin: 0;
+            font-size: 1.9rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ff6a00, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            user-select: none;
+        }
+
+        .logout-btn {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(145deg, #ff6a00, #ff9900);
+            color: #0d0d0d;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 7px;
+            border: none;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            white-space: nowrap;
+        }
+        .logout-btn:hover {
+            background: #ffa500;
+        }
+
+        /* Main content */
+        main {
+            flex-grow: 1;
+            max-width: 720px;
+            width: 90%;
+            margin: 110px auto 50px; /* leave space for fixed topbar */
+            background: #1e1e1e;
+            border-left: 6px solid #ffa500;
+            border-radius: 14px;
+            padding: 35px 40px;
+            box-shadow: 0 6px 20px rgba(255, 165, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        label {
+            font-weight: 700;
+            color: #ffa500;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 1.1rem;
+            user-select: none;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            background-color: #0d0d0d;
+            border: 2px solid #ffa500;
+            border-radius: 8px;
+            padding: 14px 18px;
+            font-size: 1rem;
+            color: #f0f0f0;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: #ffb733;
+            outline: none;
+            box-shadow: 0 0 8px #ffb733aa;
+        }
+
+        textarea {
+            min-height: 180px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        button[type="submit"] {
+            align-self: flex-start;
+            background: linear-gradient(145deg, #ffa500, #ffb733);
+            color: #0d0d0d;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(255, 165, 0, 0.4);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+            user-select: none;
+            text-transform: uppercase;
+        }
+        button[type="submit"]:hover {
+            background: #ffb733;
+            box-shadow: 0 8px 20px rgba(255, 183, 51, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            main {
+                padding: 25px 20px;
+                margin: 100px auto 40px;
+                width: 95%;
+            }
+            button[type="submit"] {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <h1>My Blog</h1>
+        <a href="/users/logout" class="logout-btn">Logout</a>
+    </div>
+
+    <!-- Main content -->
+    <main>
+        <form action="/blogs/create" method="POST" autocomplete="off" spellcheck="true">
+            <label for="title">Blog Title</label>
+            <input type="text" id="title" name="title" placeholder="Enter blog title" required maxlength="150" />
+
+            <label for="content">Blog Content</label>
+            <textarea id="content" name="content" placeholder="Write your blog content here..." required></textarea>
+
+            <button type="submit">Publish</button>
+        </form>
+    </main>
+
+</body>
+</html>

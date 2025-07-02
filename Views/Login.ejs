@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | My Blog App</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        h2 {
+            background: linear-gradient(90deg, #ff6a00, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #1a1a1a;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #0d0d0d;
+            border: 1px solid #ffa500;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        .toggle-password {
+            cursor: pointer;
+            color: #ffa500;
+            margin-top: 5px;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(145deg, #ff6a00, #ff9900);
+            color: #0d0d0d;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #ffa500;
+        }
+    </style>
+</head>
+<body>
+    <h2>Login</h2>
+    <form action="/users/login" method="POST">
+        <label for="email">Email</label>
+        <input type="email" name="email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="login-password" name="password" required>
+        <span class="toggle-password" onclick="togglePassword('login-password', this)">Show Password</span>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        function togglePassword(id, el) {
+            const input = document.getElementById(id);
+            if (input.type === "password") {
+                input.type = "text";
+                el.textContent = "Hide Password";
+            } else {
+                input.type = "password";
+                el.textContent = "Show Password";
+            }
+        }
+    </script>
+</body>
+</html>

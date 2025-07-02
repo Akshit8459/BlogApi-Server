@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>User Blogs | Blog App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0d0d0d;
+            color: #f0f0f0;
+        }
+
+        /* Topbar */
+        .topbar {
+            background-color: #1a1a1a;
+            color: #ffa500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 25px;
+            box-shadow: 0 2px 10px rgba(255, 165, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .topbar h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #ff6a00, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logout-btn {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(145deg, #ff6a00, #ff9900);
+            color: #0d0d0d;
+            font-weight: bold;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .logout-btn:hover {
+            background: #ffa500;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            right: 0;
+            background-color: #1a1a1a;
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 60px;
+            box-shadow: -2px 0 15px rgba(255, 165, 0, 0.2);
+        }
+
+        .sidebar a {
+            padding: 16px 32px;
+            text-decoration: none;
+            font-size: 1rem;
+            color: #ffa500;
+            display: block;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover {
+            background-color: #262626;
+            color: #fff;
+        }
+
+        /* Content wrapper */
+        .main {
+            padding: 110px 30px 40px 30px; /* space for fixed topbar */
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .closebtn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 25px;
+            color: #ffa500;
+            cursor: pointer;
+        }
+
+        .menu-icon {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #ffa500;
+            user-select: none;
+        }
+
+        /* Blog card styles */
+        .blog-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .blog-card {
+        background-color: #1e1e1e;
+        padding: 20px;
+        border-left: 5px solid #ffa500;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(255, 165, 0, 0.1);
+        transition: transform 0.2s ease;
+        position: relative;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(255, 165, 0, 0.3);
+        }
+
+        .blog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .blog-info {
+            flex-grow: 1;
+        }
+
+        .blog-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffa500;
+            margin-bottom: 5px;
+        }
+
+        .blog-meta {
+            font-size: 0.85rem;
+            color: #bbb;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .blog-content {
+            color: #ddd;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            max-height: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .delete-btn {
+            background-color: #ff4d4d;
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #e60000;
+        }
+
+        @media (max-width: 768px) {
+            .blog-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .delete-btn {
+                margin-top: 10px;
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <h1>Blog App</h1>
+        <a href="/users/logout" class="logout-btn">Logout</a>
+        <span class="menu-icon" onclick="openSidebar()">☰</span>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <span class="closebtn" onclick="closeSidebar()">×</span>
+        <a href="/blogs/create">Create Blog</a>
+        <a href="/blogs/myblogs">My Blogs</a>
+        <a href="/users/logout">Logout</a>
+    </div>
+
+    <!-- Main content -->
+    <div class="main">
+    <% if (!blogs || blogs.length === 0) { %>
+        <p>No blogs found.</p>
+    <% } else { %>
+        <div class="blog-list">
+            <% blogs.forEach(blog => { %>
+                <div class="blog-card">
+                    <div class="blog-header">
+                        <div class="blog-info">
+                            <div class="blog-title"><%= blog.title %></div>
+                            <div class="blog-meta">Posted on <%= new Date(blog.date).toLocaleDateString() %></div>
+                        </div>
+                        <form action="myblogs/delete/<%= blog._id %>" method="POST" onsubmit="return confirm('Delete this blog?');">
+                            <button type="submit" class="delete-btn">Delete</button>
+                        </form>
+                    </div>
+                    <div class="blog-content"><%= blog.content %></div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+    </div>
+
+    <script>
+        function openSidebar() {
+            document.getElementById('sidebar').style.width = '250px';
+        }
+        function closeSidebar() {
+            document.getElementById('sidebar').style.width = '0';
+        }
+    </script>
+</body>
+</html>
